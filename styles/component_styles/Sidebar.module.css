@@ -1,0 +1,54 @@
+.closeSideNav{
+    float: right;
+    width: 25px;
+}
+
+.collapsedSideNav{
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.firstName{
+    position: relative;
+    left: 20px;
+    width: fit-content;
+}
+
+.lastName{
+    position: relative;
+    left: 70px;
+    width: fit-content;
+}
+
+.openSideNav{
+    width: 100px;
+    height: 250px;
+}
+
+.sideNav{
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 50px;
+    padding-left: 30px;
+}
+
+.sideNavHidden{
+    display: none;
+    transition: .5s;
+}
+
+.sideNavIcon{
+    width: 30px;
+    margin-right: 10px;
+}
+
+.sideNavRow a, .sideNavRow p{
+    font-size: 2rem;
+}

@@ -1,0 +1,14 @@
+.myFAIcon{
+    position:relative;
+    left:10px;
+    cursor: pointer;
+    width: 20px;
+    float: center;
+}
+.dropdownTitle{
+    display:inline-block;
+}
+
+.barDropdown{
+    display: inline-block;
+}
