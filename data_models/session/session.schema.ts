@@ -1,18 +1,14 @@
 import { Schema } from "mongoose";
 
 const SessionSchema: Schema = new Schema({
-    name: String,
-    tutor: String,
-    professor: String,
-    info: {
-        type: String,
-        default: ""
-    },
-    resolve: {
-        type: String,
-        default: ""
-    },
-    date: Date
+    Student: String,
+    Tutor: String,
+    Professor: String,
+    Info: String,
+    Issue: String,
+    Resolve: String,
+    Date: String,
+    Time: String
 });
 
 export default SessionSchema;

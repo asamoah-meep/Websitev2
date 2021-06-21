@@ -6,14 +6,18 @@ import { SessionModel } from '../../data_models/session/session.model';
 import { ISession, ISessionDocument } from "../../data_models/session/session.types";
 import styles from "../../styles/component_styles/timeline/Teacher.module.css";
 import {select} from "d3-selection";
+import {ScaleTime, scaleTime} from "d3-scale";
+import {Resolution} from "../../Constants";
 
 type TeacherProps = {
     name: String,
-    sessions: ISessionDocument[]
+    sessions: ISessionDocument[],
+    index: number,
+    dateScale: ScaleTime<number,number>,
+    timeScale: ScaleTime<number,number>
 }
 
 type TeacherState = {
-
 }
 
 class Teacher extends React.Component<TeacherProps,TeacherState>{
@@ -24,34 +28,45 @@ class Teacher extends React.Component<TeacherProps,TeacherState>{
         this.addDataBox = this.addDataBox.bind(this);
     }
 
-    // componentDidMount(){
-    //     this.addDataBox();
-    // }
+    componentDidMount(){
+        this.addDataBox();
+    }
 
     componentDidUpdate(){
         this.addDataBox();
     }
 
     addDataBox(){
-        console.log(this.props.sessions);
-        console.log(document.querySelector(`.${styles.dataBoxWrapper}`));
-        select(`.${styles.dataBoxWrapper}`)
-            .append("svg")
-                .classed(styles.dataBox, true)
-                .data(this.props.sessions)
-                .enter()
-                .append("g");
+        const self = this;
+        select(`#teacher${this.props.index}`)
+            .select(`.${styles.dataBox}`)
+            .selectAll("span")
+            .data(this.props.sessions)
+            .enter()
+            .append("span")
+            .classed(styles.dataPoint,true)
+            .style("left", function(d: ISessionDocument): string{
+                const boundingBox : DOMRect = this.parentElement!.getBoundingClientRect();
+                const scale: number = self.props.dateScale(new Date(d.Date));
+                return boundingBox.width*scale*.9+ "px";
+            })
+            .style("top", function(d: ISessionDocument): string{
+                const boundingBox : DOMRect = this.parentElement!.getBoundingClientRect();
+                const scale: number = self.props.timeScale(new Date(d.Time));
+                return boundingBox.height*scale*.9 + "px";
+            })
+            .text("*");
+
+        
     }
 
     render(): React.ReactElement{
-        console.log(this.props);
         return (
-            <div>
-                <div className="col-md-3">
-                    <h3>{this.props.name}</h3>
+            <div className={styles.container + " row"} id={"teacher"+this.props.index}>
+                <div className={styles.dataName + " col-md-2"}>
+                    <h3>{this.props.name + ":"}</h3>
                 </div>
-                <div className={styles.dataBoxWrapper + " col-md-9"}>
-
+                <div className={styles.dataBox + " col-md-9"}>
                 </div>
             </div>
         );

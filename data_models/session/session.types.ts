@@ -1,12 +1,14 @@
 import { Document, Model } from "mongoose";
 
 export interface ISession{
-    Name: string,
+    Student: string,
     Tutor: string,
     Professor: string,
-    Info?: string,
-    Resolve?: string,
-    Date: Date
+    Info: string,
+    Issue: string,
+    Resolve: string,
+    Date: string,
+    Time: string
 }
 
 export interface ISessionDocument extends ISession, Document {}

@@ -1,7 +1,19 @@
-.dataBoxWrapper{
-    height: 200px;
+.container{
+    height: 100px;
+    position: relative;
+}
+.dataBox{
+    border: 5px solid darkgrey;
+    position: relative
 }
 
-.dataBox{
-    height: 200;
+.dataName{
+    padding: 30px;
+    text-align: center;
+    border: 58px solid darkgrey;
+}
+
+.dataPoint{
+    position:relative;
+    width: 5px;
 }
