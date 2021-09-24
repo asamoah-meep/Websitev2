@@ -1,16 +1,88 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+h1{
+  font-family: 'Poppins';
+  font-weight: bold;
+  font-size:2.5rem;
+  color: #5DA2D5;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+h3{
+  font-family: 'Poppins';
+  font-style: italic;
+  font-size: 1.5rem;
+  color: #CB669E;
 }
 
-* {
+p,a,span, li,div{
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: rgb(58,118,158);
+}
+
+form,text{
+  font-family: 'Poppins', sans-serif;
+  color: rgb(58,118,158);
+}
+
+a:hover{
+  color: #DA7B93;
+}
+
+input[type='submit']{
+  float: right;
+}
+
+body{
+  overflow-x: auto;
+  background: rgba(223,240,255,0.9);
+}      
+
+section{
+  /* width: 70%; */
+  padding-bottom: 10px;
+}
+
+/*
+
+            themeValues={
+                background: 'rgba(223,240,255,0.9)',
+                text: 'rgb(58,118,158)',
+                headings: '#5DA2D5',
+                subheadings: '#CB669E',
+                theme: 'light'
+            };
+        body{
+            background: ${this.state.background}
+        }
+
+        h1{
+            color: ${this.state.headings}
+        }
+
+        h3, div svg{
+            color: ${this.state.subheadings}
+        }
+
+        p,a,span,li,div,form,text{
+            color: ${this.state.text}
+        }
+
+        .subHeading{
+            color: ${this.state.subheadings}
+        }
+
+        #content{
+            border-left: solid 2px ${this.state.subheadings}
+        }
+
+        .barIcon{
+            color: ${this.state.subheadings}
+        }
+
+        section{
+            boder-bottom: solid 2px ${this.state.subheadings};
+        }
+*/
+
+*{
   box-sizing: border-box;
 }

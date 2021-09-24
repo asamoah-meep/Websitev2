@@ -1,6 +1,7 @@
 .container{
     height: 100px;
     position: relative;
+    margin: 5px;
 }
 .dataBox{
     border: 5px solid darkgrey;
@@ -10,10 +11,11 @@
 .dataName{
     padding: 30px;
     text-align: center;
-    border: 58px solid darkgrey;
+    border: 5px solid darkgrey;
 }
 
 .dataPoint{
     position:relative;
     width: 5px;
+    cursor: pointer;
 }

@@ -3,30 +3,41 @@ import Teacher from "../components/timeline/teacher";
 import { ISessionDocument } from "../data_models/session/session.types";
 import * as Constants from "../Constants";
 import {ScaleTime, scaleTime} from "d3-scale";
+import CurrentSession from "../components/timeline/currentSession";
+import TimeFrame from "../components/timeline/timeframe";
 type DefaultProps = {
 
 }
 
 type TimelineState = {
-    sessions: ISessionDocument[]
+    sessions: ISessionDocument[],
+    currentSession: ISessionDocument | null,
+    startDate : Date,
+    endDate : Date
 }
 
 class Timeline extends React.Component<DefaultProps,TimelineState>{
 
     constructor(props: DefaultProps){
         super(props);
-        this.state = {
-            sessions: []
-        };
 
         this.filterSessionsByProfessorName = this.filterSessionsByProfessorName.bind(this);
         this.createTimeScale = this.createTimeScale.bind(this);
         this.createDateScale = this.createDateScale.bind(this);
+        this.setCurrentSession = this.setCurrentSession.bind(this);
+
+        this.state = {
+            sessions: [],
+            currentSession: null,
+            startDate: Constants.TUTOR_START_DATE,
+            endDate: Constants.TUTOR_END_DATE
+        };
     }
 
     async componentDidMount(){
         const response : Response = await fetch("api/timeline/getSessionData");
         const data : ISessionDocument[] = await response.json();
+        console.log(data);
         this.setState({
             sessions: data
         });
@@ -36,16 +47,22 @@ class Timeline extends React.Component<DefaultProps,TimelineState>{
         return this.state.sessions.filter(s => s.Professor.includes(name));
     }
 
-    createDateScale(): ScaleTime<number,number>
-    {
-        const minDate = this.state.sessions.length > 0 ? 
-            new Date(this.state.sessions[0].Date) : new Date();
-        const maxDate = this.state.sessions.length > 0 ?
-            new Date(this.state.sessions[this.state.sessions.length-1].Date) : new Date();
+    setCurrentSession(s: ISessionDocument){
+        this.setState({
+            currentSession: s
+        });
+    }
 
+    createDateScale(minDate: Date = Constants.TUTOR_START_DATE, 
+        maxDate: Date = Constants.TUTOR_END_DATE): ScaleTime<number,number>
+    {
         return scaleTime()
             .domain([minDate, maxDate])
             .nice()
+    }
+
+    clearSessionInfo(){
+        
     }
 
     createTimeScale(): ScaleTime<number,number>{
@@ -58,13 +75,15 @@ class Timeline extends React.Component<DefaultProps,TimelineState>{
 
     render(): React.ReactNode{
         const teachers: string[] = Object.values(Constants.Professors);
-        const teacherComponents: React.ReactNode = teachers.map
-        ((t,index) => <Teacher name={t} sessions={this.filterSessionsByProfessorName(t)} key={t} index={index} 
-       dateScale = {this.createDateScale()} timeScale = {this.createTimeScale()} />);
-       console.log(teacherComponents);
-        return (
+        const teacherComponents: React.ReactNode = teachers.map((t,index) =>
+            <Teacher name={t} sessions={this.filterSessionsByProfessorName(t)} key={t} index={index} setCurrentSession = {this.setCurrentSession}
+            dateScale = {this.createDateScale()} timeScale = {this.createTimeScale()} />);
+        
+            return (
             <div>
-                {teacherComponents}    
+                {teacherComponents}
+                <TimeFrame startDate = {this.state.startDate} endDate = {this.state.endDate}/>
+                <CurrentSession currentSession={this.state.currentSession}/>   
             </div>
         )
     }

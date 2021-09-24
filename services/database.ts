@@ -2,7 +2,7 @@ import * as Mongoose from "mongoose";
 
 let database: Mongoose.Connection;
 
-export const connect = () => {
+export const connect = async () => {
     //console.log(process.env);
     const uri = `mongodb+srv://Chrid:8Y3JnKT4GQstiIPW@personalwebsite.1rd1m.mongodb.net/TutorData?retryWrites=true&w=majority`;
 
@@ -10,24 +10,19 @@ export const connect = () => {
         return;
     }
 
-    Mongoose.connect(uri, {
+    const options: Mongoose.ConnectOptions = {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true
-    }, function(){
-        try{
-            console.log("Connected to DB");
-        }catch(err){
-            console.log("Error connecting to DB");
-        }
-    });
+    };
 
-    database = Mongoose.connection;
-
-    database.on("error", () => {
-        console.log("Error connecting to DB");
-    });
-
+    try{
+        await Mongoose.connect(uri,options);
+        console.log("connected to DB!");    
+        database = Mongoose.connection;  
+    }catch(err){
+        console.log("Error connecting to DB");   
+    }
 }
 
 export const disconnect = () => {

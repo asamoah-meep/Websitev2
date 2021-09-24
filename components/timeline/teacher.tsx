@@ -12,6 +12,7 @@ import {Resolution} from "../../Constants";
 type TeacherProps = {
     name: String,
     sessions: ISessionDocument[],
+    setCurrentSession: (s: ISessionDocument) => void,
     index: number,
     dateScale: ScaleTime<number,number>,
     timeScale: ScaleTime<number,number>
@@ -24,7 +25,6 @@ class Teacher extends React.Component<TeacherProps,TeacherState>{
 
     constructor(props: TeacherProps){
         super(props);
-
         this.addDataBox = this.addDataBox.bind(this);
     }
 
@@ -48,16 +48,22 @@ class Teacher extends React.Component<TeacherProps,TeacherState>{
             .style("left", function(d: ISessionDocument): string{
                 const boundingBox : DOMRect = this.parentElement!.getBoundingClientRect();
                 const scale: number = self.props.dateScale(new Date(d.Date));
+                console.log(boundingBox);
                 return boundingBox.width*scale*.9+ "px";
             })
             .style("top", function(d: ISessionDocument): string{
                 const boundingBox : DOMRect = this.parentElement!.getBoundingClientRect();
-                const scale: number = self.props.timeScale(new Date(d.Time));
+                const today: Date = new Date();
+                const sessionTime = new Date(d.Time);
+                sessionTime.setDate(today.getDate());
+                sessionTime.setMonth(today.getMonth());
+                sessionTime.setFullYear(today.getFullYear());
+
+                const scale: number = self.props.timeScale(sessionTime);
                 return boundingBox.height*scale*.9 + "px";
             })
-            .text("*");
-
-        
+            .on("click", (_,b) => this.props.setCurrentSession(b))
+            .text("*");        
     }
 
     render(): React.ReactElement{
